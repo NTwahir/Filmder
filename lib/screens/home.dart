@@ -7,28 +7,55 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  int pageIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: hexColor,
-        title: Center(child: Text('Filmder')),
-      ),
+      appBar: getAppBar(),
       body: getBody(context),
       backgroundColor: accentColor,
     );
   }
-}
 
-Widget getBody(context) {
-  var size = MediaQuery.of(context).size;
-  return Padding(
-    padding: const EdgeInsets.only(bottom: 120),
-    child: Container(
-      height: size.height,
-      child: MovieCard(),
-    ),
-  );
+  Widget getBody(context) {
+    var size = MediaQuery.of(context).size;
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 120),
+      child: Container(
+        height: size.height,
+        child: MovieCard(),
+      ),
+    );
+  }
+
+  PreferredSizeWidget getAppBar() {
+    // Icons of appbar
+    var icons = [
+      pageIndex == 0 ? Icons.movie : Icons.movie_outlined,
+      pageIndex == 1 ? Icons.favorite : Icons.favorite_border_outlined,
+      pageIndex == 2 ? Icons.calendar_today : Icons.calendar_today_outlined,
+      pageIndex == 3 ? Icons.person : Icons.person_outlined,
+    ];
+    return AppBar(
+      backgroundColor: hexColor,
+      title: Padding(
+        padding: const EdgeInsets.only(left: 10, right: 10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: List.generate(icons.length, (index) {
+            return IconButton(
+              onPressed: () {
+                setState(() {
+                  pageIndex = index;
+                });
+              },
+              icon: Icon(icons[index], size: 30),
+            );
+          }),
+        ),
+      ),
+    );
+  }
 }
 
 class MovieCard extends StatefulWidget {
