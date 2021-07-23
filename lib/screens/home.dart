@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../theme/colors.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -10,9 +11,11 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: hexColor,
         title: Center(child: Text('Filmder')),
       ),
       body: Text('this is home page'),
+      backgroundColor: accentColor,
     );
   }
 }
