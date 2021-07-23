@@ -14,6 +14,43 @@ class _HomeState extends State<Home> {
       appBar: getAppBar(),
       body: getBody(context),
       backgroundColor: accentColor,
+      bottomSheet: getFooter(context),
+    );
+  }
+
+  Widget getFooter(context) {
+    var size = MediaQuery.of(context).size;
+    return Container(
+      width: size.width,
+      height: 120,
+      decoration: BoxDecoration(color: hexColor),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: List.generate(5, (index) {
+            return Container(
+              width: 45,
+              height: 45,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey,
+                    spreadRadius: 5,
+                    blurRadius: 10,
+                  ),
+                ],
+              ),
+              child: Icon(
+                Icons.refresh,
+                color: Colors.grey,
+              ),
+            );
+          }),
+        ),
+      ),
     );
   }
 
