@@ -10,20 +10,22 @@ class _HomeState extends State<Home> {
   int pageIndex = 0;
   @override
   Widget build(BuildContext context) {
+    Color mainColor = themeColor(context)['mainColor'];
+    Color subColor = themeColor(context)['subColor'];
     return Scaffold(
-      appBar: getAppBar(),
+      appBar: getAppBar(mainColor: mainColor, subColor: subColor),
       body: getBody(context),
-      backgroundColor: accentColor,
-      bottomSheet: getFooter(context),
+      backgroundColor: mainColor,
+      bottomSheet: getFooter(context, mainColor: mainColor, subColor: subColor),
     );
   }
 
-  Widget getFooter(context) {
+  Widget getFooter(context, {mainColor, subColor}) {
     var size = MediaQuery.of(context).size;
     return Container(
       width: size.width,
-      height: 120,
-      decoration: BoxDecoration(color: hexColor),
+      height: 100,
+      decoration: BoxDecoration(color: mainColor),
       child: Padding(
         padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
         child: Row(
@@ -34,18 +36,18 @@ class _HomeState extends State<Home> {
               height: 45,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.white,
+                color: subColor,
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.grey,
-                    spreadRadius: 5,
-                    blurRadius: 10,
+                    color: Color(0xFF4DD0E1),
+                    spreadRadius: 2,
+                    blurRadius: 5,
                   ),
                 ],
               ),
               child: Icon(
                 Icons.refresh,
-                color: Colors.grey,
+                color: Colors.white,
               ),
             );
           }),
@@ -65,7 +67,7 @@ class _HomeState extends State<Home> {
     );
   }
 
-  PreferredSizeWidget getAppBar() {
+  PreferredSizeWidget getAppBar({mainColor, subColor}) {
     // Icons of appbar
     var icons = [
       pageIndex == 0 ? Icons.movie : Icons.movie_outlined,
@@ -74,7 +76,8 @@ class _HomeState extends State<Home> {
       pageIndex == 3 ? Icons.person : Icons.person_outlined,
     ];
     return AppBar(
-      backgroundColor: hexColor,
+      elevation: 0,
+      backgroundColor: mainColor,
       title: Padding(
         padding: const EdgeInsets.only(left: 10, right: 10),
         child: Row(
@@ -86,7 +89,7 @@ class _HomeState extends State<Home> {
                   pageIndex = index;
                 });
               },
-              icon: Icon(icons[index], size: 30),
+              icon: Icon(icons[index], size: 30, color: subColor),
             );
           }),
         ),
@@ -103,15 +106,39 @@ class MovieCard extends StatefulWidget {
 class _MovieCardState extends State<MovieCard> {
   @override
   Widget build(BuildContext context) {
-    return Card(
-      semanticContainer: true,
-      elevation: 5,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
+    var size = MediaQuery.of(context).size;
+    return Center(
+      child: Container(
+        width: size.width * 0.75,
+        height: size.height * 0.75,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(15),
+          child: Stack(
+            children: [
+              Container(
+                width: size.width,
+                height: size.height,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: NetworkImage(
+                          'https://m.media-amazon.com/images/G/01/imdb/images/social/imdb_logo._CB410901634_.png'),
+                      fit: BoxFit.cover),
+                ),
+              )
+            ],
+          ),
+        ),
       ),
-      clipBehavior: Clip.antiAliasWithSaveLayer,
-      child: Image.network(
-          'https://m.media-amazon.com/images/G/01/imdb/images/social/imdb_logo._CB410901634_.png'),
     );
+    // Card(
+    //   semanticContainer: true,
+    //   elevation: 5,
+    //   shape: RoundedRectangleBorder(
+    //     borderRadius: BorderRadius.circular(15),
+    //   ),
+    //   clipBehavior: Clip.antiAliasWithSaveLayer,
+    //   child: Image.network(
+    //       'https://m.media-amazon.com/images/G/01/imdb/images/social/imdb_logo._CB410901634_.png'),
+    // );
   }
 }

@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 
 void main() {
   runApp(MaterialApp(
-    theme: ThemeData.dark(),
+    theme: ThemeData.light(),
+    darkTheme: ThemeData.dark(),
     routes: {
       '/': (context) => Home(),
     },

@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 
-const subColor = Color(0xFFE040FB);
-const hexColor = const Color(0xFF7B1FA2);
-const accentColor = const Color(0xFF424242);
+Map themeColor(context) {
+  bool isLightTheme =
+      MediaQuery.of(context).platformBrightness == Brightness.light;
+
+  return {
+    'mainColor': isLightTheme ? Color(0xFF80DEEA) : Color(0xFF00ACC1),
+    'subColor': isLightTheme ? Color(0xFFFFFFFF) : Color(0xFF424242),
+  };
+}
