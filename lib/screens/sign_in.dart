@@ -1,4 +1,6 @@
+import 'package:filmder/screens/home.dart';
 import 'package:filmder/screens/sign_up.dart';
+import 'package:filmder/services/auth.dart';
 import 'package:filmder/theme/colors.dart';
 import 'package:filmder/theme/theme.dart';
 import 'package:filmder/widgets/widgets.dart';
@@ -15,6 +17,29 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   final _formKey = GlobalKey<FormState>();
   late String email, password;
+  AuthService authService = new AuthService();
+  bool isLoading = false;
+
+  signIn() async {
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        isLoading = true;
+      });
+
+      await authService
+          .signInWithEmailAndPassword(email, password)
+          .then((value) {
+        if (value != null) {
+          setState(() {
+            isLoading = false;
+          });
+        }
+      });
+
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => Home()));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,8 +75,10 @@ class _SignInState extends State<SignIn> {
                 height: 15,
               ),
               TextFormField(
+                obscureText: true,
                 validator: Validators.compose(
-                    [Validators.required("Please fill in your password")]),
+                  [Validators.required("Please fill in your password")],
+                ),
                 decoration: InputDecoration(
                   fillColor: Colors.white,
                   hintText: 'Password',
@@ -79,11 +106,16 @@ class _SignInState extends State<SignIn> {
                     borderRadius: BorderRadius.circular(3)),
                 alignment: Alignment.center,
                 width: MediaQuery.of(context).size.width - 32,
-                child: Text("Sign in ",
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText1!
-                        .copyWith(fontSize: 16)),
+                child: GestureDetector(
+                  onTap: () {
+                    signIn();
+                  },
+                  child: Text("Sign in ",
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText1!
+                          .copyWith(fontSize: 16)),
+                ),
               ),
               SizedBox(
                 height: 18,

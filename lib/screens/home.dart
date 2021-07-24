@@ -1,3 +1,5 @@
+import 'package:filmder/screens/sign_in.dart';
+import 'package:filmder/services/auth.dart';
 import 'package:flutter/material.dart';
 import '../theme/colors.dart';
 
@@ -7,6 +9,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  AuthService authService = new AuthService();
   int pageIndex = 0;
   @override
   Widget build(BuildContext context) {
@@ -82,6 +85,9 @@ class _HomeState extends State<Home> {
           children: List.generate(icons.length, (index) {
             return IconButton(
               onPressed: () {
+                authService.signOut();
+                Navigator.pushReplacement(
+                    context, MaterialPageRoute(builder: (context) => SignIn()));
                 setState(() {
                   pageIndex = index;
                 });
